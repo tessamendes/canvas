@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Drawing Area</title>
+<!-- You can add your style here rather than in an external style sheet. -->
+
+<style>
+	canvas {
+	    border:5px solid #d3d3d3;
+	    background-color: #f1f1f1;
+	    display: block;
+	}
+</style>
+</head>
+<body>
+    <!-- DO NOT MODIFY THIS HTML -->
+    <canvas id = "myCanvas" width = "350" height = "500"  ></canvas>
+    <input type = "color" id = "picker"/>
+
+<script>
+	document.getElementById("myCanvas").height = window.innerHeight * .8;
+	document.getElementById("myCanvas").width = window.innerWidth * .8;
+	var canvas = document.getElementById("myCanvas");
+	var ctx = canvas.getContext("2d");
+	colorvar = "red" //setting default pen color to red to start out
+	var picker_color = document.getElementById("picker").value
+
+	var penup = 0
+	myCanvas.addEventListener(
+		'mousemove', function(e){
+			console.log(e)
+			if(penup == 0){
+				ctx.beginPath();
+				draw(e.offsetX, e.offsetY) //my pen was not drawing on the exact spot of the mouse so I set it to offset (found in the console for mousemevent), I also tried to use clientX and clientY. It was mostly trial and error,
+				// console.log("check")
+				function draw(x, y){
+					ctx.arc(x, y, 10, 0, 2 * Math.PI)
+					ctx.fillStyle = colorvar
+					ctx.fill();
+					ctx.moveTo(x, y);
+					// console.log("check2")
+					}
+				}
+			if(penup == 1){
+				console.log("Pen is currently lifted")
+			}
+		})
+
+// code to chnage color of pen
+	window.addEventListener(
+		'keydown', function(e){
+			console.log(this)
+			if (e.key == "b"){
+				colorvar = 'blue'
+				console.log("The color is now Blue")
+			}
+			if (e.key == "g"){
+				colorvar = 'green'
+				console.log("The color is now Green")
+			}
+			if (e.key == "r"){
+				colorvar = 'red'
+				console.log("The color is now Red")
+			}
+			if (e.key == "y"){
+				colorvar = 'yellow'
+				console.log("The color is now Yellow")
+			}
+			if (e.keyCode == 32){
+				console.log("Clear");
+				ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+				ctx.beginPath()
+			}
+
+			if (e.keyCode == 38){
+				console.log("Lift pen")
+				penup = 1;
+			}
+
+			if (e.keyCode == 40){
+				console.log("Put pen down")
+				penup = 0;
+			}
+		})
+
+	// var getColor = document.getElementById('picker')
+	// var getValue = getColor.options[getColor.selectedIndex].text
+	// colorvar = getValue
+
+	picker.addEventListener(
+		'change', function(){
+			console.log("Color selection")
+			picker_color = this.value
+			console.log(picker_color)
+			colorvar = picker_color;
+		})
+		// document.getElementById("picker").style.Color = 
+
+//when trying to write the code for picking up the pen, just write an if statement 
+//have your console.log print out which colors you are selecting from the color wheel
+
+</script>
+</body>
+</html>
